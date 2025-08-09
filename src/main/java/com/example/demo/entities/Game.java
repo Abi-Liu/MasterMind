@@ -1,11 +1,14 @@
 package com.example.demo.entities;
 
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /*
     This entity will be used to store all game instances and their corresponding data
  */
+@Data
 public class Game {
     private final long id;
     private final Rules rules;

@@ -9,8 +9,12 @@ import lombok.Data;
  */
 public class Rules {
     private int codeLength;
-    
-    private boolean allowDuplicates;
+
+//    private boolean allowDuplicates;
+
+    // highest digit.
+    // digits in the code will range from 0 - maxDigit (inclusive)
+    private int maxDigit;
 
     private int maxAttempts;
 }

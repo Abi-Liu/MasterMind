@@ -17,8 +17,12 @@ import java.util.Random;
      as determined by the game rules
  */
 public class RandomNumberService {
-    private final WebClient wc = WebClient.builder().baseUrl("https://www.random.org").build();
+    private final WebClient wc;
 
+    // inject WebClient.Builder to make this more testable via dependency injection
+    public RandomNumberService(WebClient.Builder builder) {
+        this.wc = builder.baseUrl("https://www.random.org").build();
+    }
     /*
         generates and returns a code in the form a Integer list of length n
         In the case that Random.org fails/is unavailable, it uses the local generate code function
