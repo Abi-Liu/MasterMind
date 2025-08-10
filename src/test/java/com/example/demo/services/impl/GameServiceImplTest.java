@@ -3,6 +3,7 @@ package com.example.demo.services.impl;
 import com.example.demo.entities.*;
 import com.example.demo.exceptions.GameCompletedException;
 import com.example.demo.exceptions.GameNotFoundException;
+import com.example.demo.exceptions.InvalidGuessException;
 import com.example.demo.mappers.RulesMapper;
 import com.example.demo.models.GuessRequestDTO;
 import com.example.demo.models.RuleDTO;
@@ -15,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -195,5 +197,70 @@ public class GameServiceImplTest {
         game = gameService.submitGuess(guess);
 
         assertEquals(GameStatus.LOST, game.getStatus());
+    }
+
+
+
+    @Test
+    void testSubmitGuessNullList() {
+        Rules rules = new Rules(4, 7, 10);
+        Game game = new Game(1l, rules, List.of(1,1,2,3));
+
+        when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+        GuessRequestDTO guess = new GuessRequestDTO(1l, null);
+
+        assertThrows(InvalidGuessException.class, () -> gameService.submitGuess(guess));
+    }
+
+    @Test
+    void testSubmitGuessEmptyList() {
+        Rules rules = new Rules(4, 7, 10);
+        Game game = new Game(1l, rules, List.of(1,1,2,3));
+
+        when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of());
+
+        assertThrows(InvalidGuessException.class, () -> gameService.submitGuess(guess));
+
+    }
+
+    @Test
+    void testSubmitGuessNullDigit() {
+        Rules rules = new Rules(4, 7, 10);
+        Game game = new Game(1l, rules, List.of(1,1,2,3));
+
+        when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+        List<Integer> list = new ArrayList<>();
+        list.add(null);
+        list.add(1);
+        list.add(1);
+        list.add(4);
+
+        GuessRequestDTO guess = new GuessRequestDTO(1l, list);
+
+        assertThrows(InvalidGuessException.class, () -> gameService.submitGuess(guess));
+    }
+
+    @Test
+    void testSubmitGuessDigitTooLarge() {
+        Rules rules = new Rules(4, 7, 10);
+        Game game = new Game(1l, rules, List.of(1,1,2,3));
+
+        when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,1,8,3));
+
+        assertThrows(InvalidGuessException.class, () -> gameService.submitGuess(guess));
+    }
+
+
+    @Test
+    void testSubmitGuessNegativeDigit() {
+        Rules rules = new Rules(4, 7, 10);
+        Game game = new Game(1l, rules, List.of(1,1,2,3));
+
+        when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,-1,3,3));
+
+        assertThrows(InvalidGuessException.class, () -> gameService.submitGuess(guess));
     }
 }
