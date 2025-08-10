@@ -24,6 +24,17 @@ public class GameServiceImpl implements GameService {
     // thread safe long value to hold and increment current gameId
     private AtomicLong currentGameId = new AtomicLong(0);
 
+    // method to retrieve games by id. Throws an exception if the game is not found
+    // otherwise returns the game instance.
+    public Game findGameById(Long id) {
+        Optional<Game> gameOptional = gameRepository.findById(id);
+
+        if(gameOptional.isEmpty()) {
+            // throw new exception, game not found
+        }
+
+        return gameOptional.get();
+    }
 
     // creates the game and returns the game unique Id
     // the client will store the id and use it as a token to start/resume their game
@@ -39,15 +50,10 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
+    // method to submit a guess to a specified game instance
+    // it returns the modified game instance, or throws an error if the game is completed or not found.
     public Game submitGuess(GuessRequestDTO guessRequestDTO) {
-        Optional<Game> gameOptional = gameRepository.findById(guessRequestDTO.getGameId());
-
-        if(gameOptional.isEmpty()) {
-            // game does not exist, throw error
-            // throw new error and send to client
-        }
-
-        Game game = gameOptional.get();
+        Game game = findGameById(guessRequestDTO.getGameId());
 
         // check to ensure game is in progress
         if(game.getStatus() != GameStatus.IN_PROGRESS) {
@@ -57,10 +63,12 @@ public class GameServiceImpl implements GameService {
         GuessRecord result = score(guessRequestDTO.getGuess(), game);
 
         game.getHistory().add(result);
+        game.setAttempts(game.getAttempts()+1);
         return game;
     }
 
     // helper method to check correct numbers and location of the guess
+    // returns a `GuessRecord`
     private GuessRecord score(List<Integer> guess, Game game) {
          int maxDigit = game.getRules().getMaxDigit();
 
