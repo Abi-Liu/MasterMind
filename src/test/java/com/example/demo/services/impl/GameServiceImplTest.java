@@ -145,7 +145,7 @@ public class GameServiceImplTest {
     }
 
         @Test
-    void testSubmitGuessWonGame() {
+    void testSubmitGuessOnWonGame() {
         Rules rules = new Rules(4, 7, 10);
         Game game = new Game(1l, rules, List.of(1,1,2,3));
         game.setStatus(GameStatus.WON);
@@ -157,7 +157,7 @@ public class GameServiceImplTest {
     }
 
     @Test
-    void testSubmitGuessLostGame() {
+    void testSubmitGuessOnLostGame() {
         Rules rules = new Rules(4, 7, 10);
         Game game = new Game(1l, rules, List.of(1,1,2,3));
         game.setStatus(GameStatus.LOST);
@@ -166,5 +166,34 @@ public class GameServiceImplTest {
         GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,2,3,5));
 
         assertThrows(GameCompletedException.class, () -> gameService.submitGuess(guess));
+    }
+
+    @Test
+    void testSubmitGuessUserWin() {
+        Rules rules = new Rules(4, 7, 10);
+        Game game = new Game(1l, rules, List.of(1,1,2,3));
+
+        when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,1,2,3));
+
+        game = gameService.submitGuess(guess);
+
+        assertEquals(GameStatus.WON, game.getStatus());
+    }
+
+    @Test
+    void testSubmitGuessUserLoses() {
+        Rules rules = new Rules(4, 7, 10);
+        Game game = new Game(1l, rules, List.of(1,1,2,3));
+
+        // set the # of attempts used to be on the last attempt
+        game.setAttempts(9);
+
+        when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,1,3,3));
+
+        game = gameService.submitGuess(guess);
+
+        assertEquals(GameStatus.LOST, game.getStatus());
     }
 }
