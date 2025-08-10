@@ -4,7 +4,9 @@ import com.example.demo.entities.*;
 import com.example.demo.exceptions.GameCompletedException;
 import com.example.demo.exceptions.GameNotFoundException;
 import com.example.demo.exceptions.InvalidGuessException;
+import com.example.demo.mappers.GameMapper;
 import com.example.demo.mappers.RulesMapper;
+import com.example.demo.models.GameResponseDTO;
 import com.example.demo.models.GuessRequestDTO;
 import com.example.demo.models.RuleDTO;
 import com.example.demo.repositories.GameRepository;
@@ -23,6 +25,7 @@ public class GameServiceImpl implements GameService {
     private final RandomNumberService randomNumberService;
     private final RulesMapper rulesMapper;
     private final GameRepository gameRepository;
+    private final GameMapper gameMapper;
 
     // thread safe long value to hold and increment current gameId
     private AtomicLong currentGameId = new AtomicLong(0);
@@ -44,13 +47,13 @@ public class GameServiceImpl implements GameService {
     // the client will store the id and use it as a token to start/resume their game
     // this method will also store the game instance into the GameRepository, which will be in memory for now.
     @Override
-    public Long createGame(RuleDTO rulesDTO) {
+    public GameResponseDTO createGame(RuleDTO rulesDTO) {
         Long id =  currentGameId.getAndIncrement();
         Rules rules = rulesMapper.dtoToEntity(rulesDTO);
         List<Integer> code = randomNumberService.generateCode(rules);
         Game game = new Game(id, rules, code);
         gameRepository.save(game);
-        return id;
+        return gameMapper.gameToDTO(game);
     }
 
     // helper method to check for wins
@@ -117,7 +120,7 @@ public class GameServiceImpl implements GameService {
     @Override
     // method to submit a guess to a specified game instance
     // it returns the modified game instance, or throws an error if the game is completed or not found.
-    public Game submitGuess(GuessRequestDTO guessRequestDTO) {
+    public GameResponseDTO submitGuess(GuessRequestDTO guessRequestDTO) {
         Game game = findGameById(guessRequestDTO.getGameId());
 
         // check to ensure game is in progress
@@ -138,14 +141,13 @@ public class GameServiceImpl implements GameService {
         // check for win and set game status to WON if true
         if(checkWin(result, game)) {
             game.setStatus(GameStatus.WON);
-            return game;
         } else if(checkLoss(result, game)) {
             // check for loss and set status to LOST if true
             game.setStatus(GameStatus.LOST);
         }
 
 
-        return game;
+        return gameMapper.gameToDTO(game);
     }
 
     // helper method to check correct numbers and location of the guess
