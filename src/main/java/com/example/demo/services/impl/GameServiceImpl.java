@@ -103,7 +103,7 @@ public class GameServiceImpl implements GameService {
 
         // now we check for correct digit but wrong location
         // here we can utilize the frequency arrays we created in the previous step
-        for(int i = 0; i < maxDigit; i++) {
+        for(int i = 0; i <= maxDigit; i++) {
             // for each possible digit from 0 - maxDigit, we add the minimum frequency value to the counter
             // `correctDigitWrongLocation`. This way we don't over or under count the frequencies with duplicates.
             correctDigitWrongLocation += Math.min(codeFreq[i], guessFreq[i]);
