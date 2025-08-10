@@ -53,7 +53,11 @@ public class GameServiceImplTest {
 
         Long gameId = gameService.createGame(ruleDTO);
 
+        Long nextGameId = gameService.createGame(ruleDTO);
+
         assertEquals(gameId, 0l);
+
+        assertEquals(nextGameId, 1l);
     }
 
 }
