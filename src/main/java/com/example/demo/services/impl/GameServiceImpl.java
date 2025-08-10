@@ -6,8 +6,9 @@ import com.example.demo.entities.Rules;
 import com.example.demo.mappers.RulesMapper;
 import com.example.demo.models.GuessRequestDTO;
 import com.example.demo.models.RuleDTO;
-import com.example.demo.repositories.impl.GameRepositoryImpl;
+import com.example.demo.repositories.GameRepository;
 import com.example.demo.services.GameService;
+import com.example.demo.services.RandomNumberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,9 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 @RequiredArgsConstructor
 public class GameServiceImpl implements GameService {
-    private final RandomNumberServiceImpl randomNumberService;
+    private final RandomNumberService randomNumberService;
     private final RulesMapper rulesMapper;
-    private final GameRepositoryImpl gameRepository;
+    private final GameRepository gameRepository;
 
     // thread safe long value to hold and increment current gameId
     private AtomicLong currentGameId = new AtomicLong(0);
@@ -49,6 +50,7 @@ public class GameServiceImpl implements GameService {
         }
 
 
+        return gameOptional.get();
     }
 
     // helper method to check correct numbers and location of the guess
@@ -84,7 +86,7 @@ public class GameServiceImpl implements GameService {
         // here we can utilize the frequency arrays we created in the previous step
         for(int i = 0; i < maxDigit; i++) {
             // for each possible digit from 0 - maxDigit, we add the minimum frequency value to the counter
-            // `correctDigitWrongLocation`. This way we don't over or under count the frequencies.
+            // `correctDigitWrongLocation`. This way we don't over or under count the frequencies with duplicates.
             correctDigitWrongLocation += Math.min(codeFreq[i], guessFreq[i]);
         }
 

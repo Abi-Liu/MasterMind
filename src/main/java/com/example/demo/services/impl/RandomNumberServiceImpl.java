@@ -1,6 +1,7 @@
 package com.example.demo.services.impl;
 
 import com.example.demo.entities.Rules;
+import com.example.demo.services.RandomNumberService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -16,7 +17,7 @@ import java.util.Random;
      fetching as many random numbers from the api: (https://www.random.org)
      as determined by the game rules
  */
-public class RandomNumberServiceImpl {
+public class RandomNumberServiceImpl implements RandomNumberService {
     private final WebClient wc;
 
     // inject WebClient.Builder to make this more testable via dependency injection
@@ -54,7 +55,7 @@ public class RandomNumberServiceImpl {
 
     // fall back in case Random.com is unavailable.
     // randomly generates n integers and adds them to a List that is returned.
-    public List<Integer> localGenerateCode(Rules rules) {
+    private List<Integer> localGenerateCode(Rules rules) {
         Random rand = new Random();
         List<Integer> res = new ArrayList<>();
         for(int i = 0; i < rules.getCodeLength(); i++) {
