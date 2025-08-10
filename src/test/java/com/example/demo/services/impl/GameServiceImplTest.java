@@ -4,6 +4,7 @@ import com.example.demo.entities.Game;
 import com.example.demo.entities.GuessRecord;
 import com.example.demo.entities.GuessResult;
 import com.example.demo.entities.Rules;
+import com.example.demo.exceptions.GameNotFoundException;
 import com.example.demo.mappers.RulesMapper;
 import com.example.demo.models.GuessRequestDTO;
 import com.example.demo.models.RuleDTO;
@@ -19,7 +20,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.when;
 
@@ -49,6 +50,23 @@ public class GameServiceImplTest {
         closeable.close();
     }
 
+    @Test
+    void testFindGameByIdSuccess() {
+        Rules rules = new Rules(4, 7, 10);
+        Game game = new Game(1l, rules, List.of(1,1,2,3));
+
+        when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+        Game result = assertDoesNotThrow(() -> gameService.findGameById(1l));
+
+        assertEquals(result.getId(), 1l);
+    }
+
+
+    @Test
+    void testFindGameByIdFail() {
+        when(gameRepository.findById(1l)).thenReturn(Optional.ofNullable(null));
+        assertThrows(GameNotFoundException.class, () -> gameService.findGameById(1l));
+    }
     @Test
     void testCreateGame() {
         RuleDTO ruleDTO = new RuleDTO(4, 7, 10);
@@ -85,4 +103,12 @@ public class GameServiceImplTest {
         assertEquals(record.getResult().getCorrectLocations(), 1);
         assertEquals(record.getResult().getCorrectNumbers(), 3);
     }
+
+//    @Test
+//    void testSubmitGuessCompletedGame() {
+//        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,2,3,5));
+//        when(gameRepository.findById(1l)).thenReturn(Optional.of(null));
+//
+//       assertThrows(GameNotFoundException.class, () -> gameService.submitGuess(guess));
+//    }
 }
