@@ -52,6 +52,35 @@ public class GameServiceImpl implements GameService {
         return id;
     }
 
+    // helper method to check for wins
+    // returns true if won, and false otherwise.
+    private boolean checkWin(GuessRecord record, Game game) {
+        int codeLength = game.getRules().getCodeLength();
+        int correctLocation = record.getResult().getCorrectLocations();
+        int correctNumbers = record.getResult().getCorrectNumbers();
+
+        return codeLength == correctLocation && codeLength == correctNumbers;
+    }
+
+    // helper method to check for losses
+    // returns true if lost, false otherwise
+    // losses occur when the user submits the final guess attempt and it is incorrect
+    private boolean checkLoss(GuessRecord record, Game game) {
+        int codeLength = game.getRules().getCodeLength();
+        int correctLocation = record.getResult().getCorrectLocations();
+        int correctNumbers = record.getResult().getCorrectNumbers();
+
+        // if it wasn't the users last attempts, we know they still have guesses left
+        // return false
+        if(game.getAttempts() != game.getRules().getMaxAttempts()) {
+            return false;
+        }
+
+        // if it was their last attempt, return false if either the # of correct locations or # of correct numbers is
+        // not equal to the length of the code
+        return codeLength != correctLocation || codeLength != correctNumbers;
+    }
+
     @Override
     // method to submit a guess to a specified game instance
     // it returns the modified game instance, or throws an error if the game is completed or not found.
@@ -66,8 +95,20 @@ public class GameServiceImpl implements GameService {
 
         GuessRecord result = score(guessRequestDTO.getGuess(), game);
 
+        // add guess to history and increment attempts
         game.getHistory().add(result);
         game.setAttempts(game.getAttempts()+1);
+
+        // check for win and set game status to WON if true
+        if(checkWin(result, game)) {
+            game.setStatus(GameStatus.WON);
+            return game;
+        } else if(checkLoss(result, game)) {
+            // check for loss and set status to LOST if true
+            game.setStatus(GameStatus.LOST);
+        }
+
+
         return game;
     }
 
