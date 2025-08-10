@@ -78,8 +78,8 @@ public class GameServiceImpl implements GameService {
 
          // arrays to store the frequency of each digit in both the code and the guess
         // this way we can count how many correct digits there are that are not in the correct location
-         int[] codeFreq = new int[maxDigit];
-         int[] guessFreq = new int[maxDigit];
+         int[] codeFreq = new int[maxDigit+1];
+         int[] guessFreq = new int[maxDigit+1];
 
          // counters to store how many correct digits and correct locations
          int correctDigitAndLocation = 0;
