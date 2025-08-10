@@ -3,6 +3,7 @@ package com.example.demo.services.impl;
 import com.example.demo.entities.*;
 import com.example.demo.exceptions.GameCompletedException;
 import com.example.demo.exceptions.GameNotFoundException;
+import com.example.demo.exceptions.InvalidGuessException;
 import com.example.demo.mappers.RulesMapper;
 import com.example.demo.models.GuessRequestDTO;
 import com.example.demo.models.RuleDTO;
@@ -81,6 +82,38 @@ public class GameServiceImpl implements GameService {
         return codeLength != correctLocation || codeLength != correctNumbers;
     }
 
+    // handles validation logic for the guess request. Throws exception if invalid
+    // ensures length matches the code length and that the digits are within bounds
+    private void validateGuess(GuessRequestDTO dto, Game game) {
+        List<Integer> guess = dto.getGuess();
+        if(guess == null) {
+            throw new InvalidGuessException("Guess cannot be empty!");
+        }
+
+        Rules rules = game.getRules();
+        int codeLength = rules.getCodeLength();
+        int maxDigit = rules.getMaxDigit();
+
+        if(codeLength != guess.size()) {
+            throw new InvalidGuessException("Guess length mismatch! Expected: " + game.getRules().getCodeLength() +
+                    "- " +
+                    "but received: " + guess.size() + " digits!");
+        }
+
+        // checks to ensure that no digit is null, greater than the user set Max Digit or less than 0
+        for(Integer d : guess) {
+            if(d == null) {
+                throw new InvalidGuessException("Guess contains a null digit");
+            }
+            if(d > maxDigit) {
+                throw new InvalidGuessException("Digits can not be greater than: " + maxDigit);
+            }
+            if(d < 0) {
+                throw new InvalidGuessException("Digits can not be less than 0");
+            }
+        }
+    }
+
     @Override
     // method to submit a guess to a specified game instance
     // it returns the modified game instance, or throws an error if the game is completed or not found.
@@ -92,6 +125,9 @@ public class GameServiceImpl implements GameService {
             // game is completed, throw error
             throw new GameCompletedException("Game is already completed. Start a new game to continue playing!");
         }
+
+        // throws error if guess is invalid, otherwise returns nothing
+        validateGuess(guessRequestDTO, game);
 
         GuessRecord result = score(guessRequestDTO.getGuess(), game);
 
