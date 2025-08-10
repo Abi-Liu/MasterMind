@@ -1,6 +1,8 @@
 package com.example.demo.services.impl;
 
 import com.example.demo.entities.*;
+import com.example.demo.exceptions.GameCompletedException;
+import com.example.demo.exceptions.GameNotFoundException;
 import com.example.demo.mappers.RulesMapper;
 import com.example.demo.models.GuessRequestDTO;
 import com.example.demo.models.RuleDTO;
@@ -31,6 +33,7 @@ public class GameServiceImpl implements GameService {
 
         if(gameOptional.isEmpty()) {
             // throw new exception, game not found
+            throw new GameNotFoundException("Could not find game with ID: " + id);
         }
 
         return gameOptional.get();
@@ -58,6 +61,7 @@ public class GameServiceImpl implements GameService {
         // check to ensure game is in progress
         if(game.getStatus() != GameStatus.IN_PROGRESS) {
             // game is completed, throw error
+            throw new GameCompletedException("Game is already completed. Start a new game to continue playing!");
         }
 
         GuessRecord result = score(guessRequestDTO.getGuess(), game);
