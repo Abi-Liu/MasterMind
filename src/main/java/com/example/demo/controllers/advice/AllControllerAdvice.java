@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestControllerAdvice(basePackages = {"com.example.demo.controllers"})
-public class GameControllerAdvice {
+public class AllControllerAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(GameCompletedException.class)

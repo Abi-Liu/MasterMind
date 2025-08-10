@@ -1,5 +1,7 @@
 package com.example.demo.controllers;
 
+import com.example.demo.entities.Game;
+import com.example.demo.mappers.GameMapper;
 import com.example.demo.models.GameResponseDTO;
 import com.example.demo.models.GuessRequestDTO;
 import com.example.demo.models.RuleDTO;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/game")
 public class GameController {
     private final GameServiceImpl gameService;
+    private final GameMapper gameMapper;
 
     // creates a new game and returns the gameId for the session
     // For now we will implement a very basic game ID that just increments for each new game created
@@ -27,6 +30,13 @@ public class GameController {
     @ResponseStatus(HttpStatus.OK)
     public GameResponseDTO submitGuess(@Valid @RequestBody GuessRequestDTO guess) {
         return gameService.submitGuess(guess);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public GameResponseDTO getGame(@PathVariable Long id) {
+        Game game = gameService.findGameById(id);
+        return gameMapper.gameToDTO(game);
     }
 
 
