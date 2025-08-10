@@ -103,6 +103,48 @@ public class GameServiceImplTest {
     }
 
     @Test
+    void testSubmitGuessAllCorrect() {
+        Rules rules = new Rules(4, 7, 10);
+        Game game = new Game(1l, rules, List.of(1,1,2,3));
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,1,2,3));
+        when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+
+        game = gameService.submitGuess(guess);
+
+        GuessRecord record = game.getHistory().get(0);
+        assertEquals(record.getResult().getCorrectLocations(), 4);
+        assertEquals(record.getResult().getCorrectNumbers(), 4);
+    }
+
+    @Test
+    void testSubmitGuessAllIncorrect() {
+        Rules rules = new Rules(4, 7, 10);
+        Game game = new Game(1l, rules, List.of(1,1,2,3));
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(5,5,4,7));
+        when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+
+        game = gameService.submitGuess(guess);
+
+        GuessRecord record = game.getHistory().get(0);
+        assertEquals(record.getResult().getCorrectLocations(), 0);
+        assertEquals(record.getResult().getCorrectNumbers(), 0);
+    }
+
+    @Test
+    void testSubmitGuessAllDuplicates() {
+        Rules rules = new Rules(4, 7, 10);
+        Game game = new Game(1l, rules, List.of(7,7,7,7));
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1, 5, 4, 7));
+        when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+
+        game = gameService.submitGuess(guess);
+
+        GuessRecord record = game.getHistory().get(0);
+        assertEquals(record.getResult().getCorrectLocations(), 1);
+        assertEquals(record.getResult().getCorrectNumbers(), 1);
+    }
+
+        @Test
     void testSubmitGuessWonGame() {
         Rules rules = new Rules(4, 7, 10);
         Game game = new Game(1l, rules, List.of(1,1,2,3));
@@ -113,6 +155,7 @@ public class GameServiceImplTest {
 
        assertThrows(GameCompletedException.class, () -> gameService.submitGuess(guess));
     }
+
     @Test
     void testSubmitGuessLostGame() {
         Rules rules = new Rules(4, 7, 10);
