@@ -1,9 +1,7 @@
 package com.example.demo.services.impl;
 
-import com.example.demo.entities.Game;
-import com.example.demo.entities.GuessRecord;
-import com.example.demo.entities.GuessResult;
-import com.example.demo.entities.Rules;
+import com.example.demo.entities.*;
+import com.example.demo.exceptions.GameCompletedException;
 import com.example.demo.exceptions.GameNotFoundException;
 import com.example.demo.mappers.RulesMapper;
 import com.example.demo.models.GuessRequestDTO;
@@ -104,11 +102,26 @@ public class GameServiceImplTest {
         assertEquals(record.getResult().getCorrectNumbers(), 3);
     }
 
-//    @Test
-//    void testSubmitGuessCompletedGame() {
-//        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,2,3,5));
-//        when(gameRepository.findById(1l)).thenReturn(Optional.of(null));
-//
-//       assertThrows(GameNotFoundException.class, () -> gameService.submitGuess(guess));
-//    }
+    @Test
+    void testSubmitGuessWonGame() {
+        Rules rules = new Rules(4, 7, 10);
+        Game game = new Game(1l, rules, List.of(1,1,2,3));
+        game.setStatus(GameStatus.WON);
+
+        when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,2,3,5));
+
+       assertThrows(GameCompletedException.class, () -> gameService.submitGuess(guess));
+    }
+    @Test
+    void testSubmitGuessLostGame() {
+        Rules rules = new Rules(4, 7, 10);
+        Game game = new Game(1l, rules, List.of(1,1,2,3));
+        game.setStatus(GameStatus.LOST);
+
+        when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,2,3,5));
+
+        assertThrows(GameCompletedException.class, () -> gameService.submitGuess(guess));
+    }
 }
