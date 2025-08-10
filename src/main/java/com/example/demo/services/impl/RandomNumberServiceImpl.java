@@ -36,6 +36,7 @@ public class RandomNumberServiceImpl implements RandomNumberService {
                 .queryParam("col", 1)
                 .queryParam("base", 10)
                 .queryParam("format", "plain")
+                .queryParam("rnd", "new")
                 .build())
                 .retrieve()
                 .bodyToMono(String.class)
