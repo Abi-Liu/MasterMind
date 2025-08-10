@@ -1,8 +1,6 @@
 package com.example.demo.services.impl;
 
-import com.example.demo.entities.Game;
-import com.example.demo.entities.GuessResult;
-import com.example.demo.entities.Rules;
+import com.example.demo.entities.*;
 import com.example.demo.mappers.RulesMapper;
 import com.example.demo.models.GuessRequestDTO;
 import com.example.demo.models.RuleDTO;
@@ -49,12 +47,21 @@ public class GameServiceImpl implements GameService {
             // throw new error and send to client
         }
 
+        Game game = gameOptional.get();
 
-        return gameOptional.get();
+        // check to ensure game is in progress
+        if(game.getStatus() != GameStatus.IN_PROGRESS) {
+            // game is completed, throw error
+        }
+
+        GuessRecord result = score(guessRequestDTO.getGuess(), game);
+
+        game.getHistory().add(result);
+        return game;
     }
 
     // helper method to check correct numbers and location of the guess
-    private GuessResult score(List<Integer> guess, Game game) {
+    private GuessRecord score(List<Integer> guess, Game game) {
          int maxDigit = game.getRules().getMaxDigit();
 
          // arrays to store the frequency of each digit in both the code and the guess
@@ -91,6 +98,6 @@ public class GameServiceImpl implements GameService {
         }
 
         GuessResult result = new GuessResult(correctDigitWrongLocation + correctDigitAndLocation, correctDigitAndLocation);
-        return result;
+        return new GuessRecord(guess, result);
     }
 }
