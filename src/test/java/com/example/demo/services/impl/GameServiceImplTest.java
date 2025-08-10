@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,134 +125,226 @@ public class GameServiceImplTest {
         GuessRecord record = res.getHistory().get(0);
         assertEquals(record.getResult().getCorrectLocations(), 1);
         assertEquals(record.getResult().getCorrectNumbers(), 3);
+
+        verify(gameRepository).findById(1l);
+        verify(gameMapper).gameToDTO(any(Game.class));
     }
 
     @Test
     void testSubmitGuessAllCorrect() {
         Rules rules = new Rules(4, 7, 10);
-        Game game = new Game(1l, rules, List.of(1,1,2,3));
-        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,1,2,3));
+        Game game = new Game(1l, rules, List.of(1, 1, 2, 3));
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1, 1, 2, 3));
+
         when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+        when(gameMapper.gameToDTO(any(Game.class))).thenAnswer(inv -> {
+            Game g = inv.getArgument(0);
+            return new GameResponseDTO(
+                    g.getId(),
+                    new RuleDTO(rules.getCodeLength(), rules.getMaxDigit(), rules.getMaxAttempts()),
+                    g.getStatus(),
+                    g.getAttempts(),
+                    g.getHistory()
+            );
+        });
+
+        int attemptsBefore = game.getAttempts();
 
         GameResponseDTO res = gameService.submitGuess(guess);
 
+        assertEquals(attemptsBefore + 1, res.getAttempts());
+        assertEquals(1, res.getHistory().size());
+        assertEquals(GameStatus.WON, res.getStatus());
+
         GuessRecord record = res.getHistory().get(0);
-        assertEquals(record.getResult().getCorrectLocations(), 4);
-        assertEquals(record.getResult().getCorrectNumbers(), 4);
+        assertEquals(4, record.getResult().getCorrectLocations());
+        assertEquals(4, record.getResult().getCorrectNumbers());
+
+        verify(gameRepository).findById(1l);
+        verify(gameMapper).gameToDTO(any(Game.class));
     }
 
     @Test
     void testSubmitGuessAllIncorrect() {
         Rules rules = new Rules(4, 7, 10);
-        Game game = new Game(1l, rules, List.of(1,1,2,3));
-        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(5,5,4,7));
+        Game game = new Game(1l, rules, List.of(1, 1, 2, 3));
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(5, 5, 4, 7));
+
         when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+        when(gameMapper.gameToDTO(any(Game.class))).thenAnswer(inv -> {
+            Game g = inv.getArgument(0);
+            return new GameResponseDTO(
+                    g.getId(),
+                    new RuleDTO(rules.getCodeLength(), rules.getMaxDigit(), rules.getMaxAttempts()),
+                    g.getStatus(),
+                    g.getAttempts(),
+                    g.getHistory()
+            );
+        });
+
+        int attemptsBefore = game.getAttempts();
 
         GameResponseDTO res = gameService.submitGuess(guess);
 
+        assertEquals(attemptsBefore + 1, res.getAttempts());
+        assertEquals(1, res.getHistory().size());
+        assertEquals(GameStatus.IN_PROGRESS, res.getStatus());
+
         GuessRecord record = res.getHistory().get(0);
-        assertEquals(record.getResult().getCorrectLocations(), 0);
-        assertEquals(record.getResult().getCorrectNumbers(), 0);
+        assertEquals(0, record.getResult().getCorrectLocations());
+        assertEquals(0, record.getResult().getCorrectNumbers());
+
+        verify(gameRepository).findById(1l);
+        verify(gameMapper).gameToDTO(any(Game.class));
     }
 
     @Test
     void testSubmitGuessAllDuplicates() {
         Rules rules = new Rules(4, 7, 10);
-        Game game = new Game(1l, rules, List.of(7,7,7,7));
+        Game game = new Game(1l, rules, List.of(7, 7, 7, 7));
         GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1, 5, 4, 7));
+
         when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+        when(gameMapper.gameToDTO(any(Game.class))).thenAnswer(inv -> {
+            Game g = inv.getArgument(0);
+            return new GameResponseDTO(
+                    g.getId(),
+                    new RuleDTO(rules.getCodeLength(), rules.getMaxDigit(), rules.getMaxAttempts()),
+                    g.getStatus(),
+                    g.getAttempts(),
+                    g.getHistory()
+            );
+        });
 
         GameResponseDTO res = gameService.submitGuess(guess);
 
+        assertEquals(1, res.getHistory().size());
+        assertEquals(GameStatus.IN_PROGRESS, res.getStatus());
+
         GuessRecord record = res.getHistory().get(0);
-        assertEquals(record.getResult().getCorrectLocations(), 1);
-        assertEquals(record.getResult().getCorrectNumbers(), 1);
+        assertEquals(1, record.getResult().getCorrectLocations());
+        assertEquals(1, record.getResult().getCorrectNumbers());
+
+        verify(gameRepository).findById(1l);
+        verify(gameMapper).gameToDTO(any(Game.class));
     }
 
-        @Test
+    @Test
     void testSubmitGuessOnWonGame() {
         Rules rules = new Rules(4, 7, 10);
-        Game game = new Game(1l, rules, List.of(1,1,2,3));
+        Game game = new Game(1l, rules, List.of(1, 1, 2, 3));
         game.setStatus(GameStatus.WON);
 
         when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
-        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,2,3,5));
 
-       assertThrows(GameCompletedException.class, () -> gameService.submitGuess(guess));
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1, 2, 3, 5));
+        assertThrows(GameCompletedException.class, () -> gameService.submitGuess(guess));
+
+        verify(gameRepository).findById(1l);
+        verifyNoInteractions(gameMapper);
     }
 
     @Test
     void testSubmitGuessOnLostGame() {
         Rules rules = new Rules(4, 7, 10);
-        Game game = new Game(1l, rules, List.of(1,1,2,3));
+        Game game = new Game(1l, rules, List.of(1, 1, 2, 3));
         game.setStatus(GameStatus.LOST);
 
         when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
-        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,2,3,5));
 
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1, 2, 3, 5));
         assertThrows(GameCompletedException.class, () -> gameService.submitGuess(guess));
+
+        verify(gameRepository).findById(1l);
+        verifyNoInteractions(gameMapper);
     }
 
     @Test
     void testSubmitGuessUserWin() {
         Rules rules = new Rules(4, 7, 10);
-        Game game = new Game(1l, rules, List.of(1,1,2,3));
+        Game game = new Game(1l, rules, List.of(1, 1, 2, 3));
 
         when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
-        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,1,2,3));
+        when(gameMapper.gameToDTO(any(Game.class))).thenAnswer(inv -> {
+            Game g = inv.getArgument(0);
+            return new GameResponseDTO(
+                    g.getId(),
+                    new RuleDTO(rules.getCodeLength(), rules.getMaxDigit(), rules.getMaxAttempts()),
+                    g.getStatus(),
+                    g.getAttempts(),
+                    g.getHistory()
+            );
+        });
 
-        GameResponseDTO res = gameService.submitGuess(guess);
+        GameResponseDTO res = gameService.submitGuess(new GuessRequestDTO(1l, List.of(1, 1, 2, 3)));
 
         assertEquals(GameStatus.WON, res.getStatus());
+        assertEquals(1, res.getHistory().size());
+
+        verify(gameRepository).findById(1l);
+        verify(gameMapper).gameToDTO(any(Game.class));
     }
 
     @Test
     void testSubmitGuessUserLoses() {
         Rules rules = new Rules(4, 7, 10);
-        Game game = new Game(1l, rules, List.of(1,1,2,3));
-
-        // set the # of attempts used to be on the last attempt
-        game.setAttempts(9);
+        Game game = new Game(1l, rules, List.of(1, 1, 2, 3));
+        game.setAttempts(9); // last attempt
 
         when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
-        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,1,3,3));
+        when(gameMapper.gameToDTO(any(Game.class))).thenAnswer(inv -> {
+            Game g = inv.getArgument(0);
+            return new GameResponseDTO(
+                    g.getId(),
+                    new RuleDTO(rules.getCodeLength(), rules.getMaxDigit(), rules.getMaxAttempts()),
+                    g.getStatus(),
+                    g.getAttempts(),
+                    g.getHistory()
+            );
+        });
 
-        GameResponseDTO res = gameService.submitGuess(guess);
+        GameResponseDTO res = gameService.submitGuess(new GuessRequestDTO(1l, List.of(1, 1, 3, 3)));
 
         assertEquals(GameStatus.LOST, res.getStatus());
+        assertEquals(10, res.getAttempts());
+        assertEquals(1, res.getHistory().size());
+
+        verify(gameRepository).findById(1l);
+        verify(gameMapper).gameToDTO(any(Game.class));
     }
-
-
 
     @Test
     void testSubmitGuessNullList() {
         Rules rules = new Rules(4, 7, 10);
-        Game game = new Game(1l, rules, List.of(1,1,2,3));
-
+        Game game = new Game(1l, rules, List.of(1, 1, 2, 3));
         when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
-        GuessRequestDTO guess = new GuessRequestDTO(1l, null);
 
+        GuessRequestDTO guess = new GuessRequestDTO(1l, null);
         assertThrows(InvalidGuessException.class, () -> gameService.submitGuess(guess));
+
+        verify(gameRepository).findById(1l);
+        verifyNoInteractions(gameMapper);
     }
 
     @Test
     void testSubmitGuessEmptyList() {
         Rules rules = new Rules(4, 7, 10);
-        Game game = new Game(1l, rules, List.of(1,1,2,3));
-
+        Game game = new Game(1l, rules, List.of(1, 1, 2, 3));
         when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
-        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of());
 
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of());
         assertThrows(InvalidGuessException.class, () -> gameService.submitGuess(guess));
 
+        verify(gameRepository).findById(1l);
+        verifyNoInteractions(gameMapper);
     }
 
     @Test
     void testSubmitGuessNullDigit() {
         Rules rules = new Rules(4, 7, 10);
-        Game game = new Game(1l, rules, List.of(1,1,2,3));
-
+        Game game = new Game(1l, rules, List.of(1, 1, 2, 3));
         when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
+
         List<Integer> list = new ArrayList<>();
         list.add(null);
         list.add(1);
@@ -261,30 +352,36 @@ public class GameServiceImplTest {
         list.add(4);
 
         GuessRequestDTO guess = new GuessRequestDTO(1l, list);
-
         assertThrows(InvalidGuessException.class, () -> gameService.submitGuess(guess));
+
+        verify(gameRepository).findById(1l);
+        verifyNoInteractions(gameMapper);
     }
 
     @Test
     void testSubmitGuessDigitTooLarge() {
         Rules rules = new Rules(4, 7, 10);
-        Game game = new Game(1l, rules, List.of(1,1,2,3));
-
+        Game game = new Game(1l, rules, List.of(1, 1, 2, 3));
         when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
-        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,1,8,3));
 
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1, 1, 8, 3));
         assertThrows(InvalidGuessException.class, () -> gameService.submitGuess(guess));
-    }
 
+        verify(gameRepository).findById(1l);
+        verifyNoInteractions(gameMapper);
+    }
 
     @Test
     void testSubmitGuessNegativeDigit() {
         Rules rules = new Rules(4, 7, 10);
-        Game game = new Game(1l, rules, List.of(1,1,2,3));
-
+        Game game = new Game(1l, rules, List.of(1, 1, 2, 3));
         when(gameRepository.findById(1l)).thenReturn(Optional.of(game));
-        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1,-1,3,3));
 
+        GuessRequestDTO guess = new GuessRequestDTO(1l, List.of(1, -1, 3, 3));
         assertThrows(InvalidGuessException.class, () -> gameService.submitGuess(guess));
+
+        verify(gameRepository).findById(1l);
+        verifyNoInteractions(gameMapper);
     }
+
 }
