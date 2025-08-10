@@ -1,8 +1,10 @@
 package com.example.demo.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 /*
     Stores the result of each guess
     How many numbers are correct and how many correct numbers are in the correct locations
