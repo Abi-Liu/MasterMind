@@ -32,12 +32,11 @@ public class GameController {
         return gameService.submitGuess(guess);
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public GameResponseDTO getGame(@PathVariable Long id) {
         Game game = gameService.findGameById(id);
         return gameMapper.gameToDTO(game);
     }
-
 
 }
