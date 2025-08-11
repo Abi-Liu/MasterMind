@@ -18,4 +18,13 @@ public class GameResponseDTO {
     private int attempts;
     private List<GuessRecord> history;
 
+    private int maxHints;
+    private int hintsUsed;
+    private List<HintResponseDTO> hints;
+
+
+    // overloaded constructor to not break existing tests
+    public GameResponseDTO(long id, RuleDTO rules, GameStatus status, int attempts, List<GuessRecord> history) {
+        this(id, rules, status, attempts, history, 1, 0, List.of());
+    }
 }
