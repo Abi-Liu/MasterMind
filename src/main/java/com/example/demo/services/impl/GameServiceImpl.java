@@ -30,6 +30,7 @@ public class GameServiceImpl implements GameService {
     // thread safe long value to hold and increment current gameId
     private AtomicLong currentGameId = new AtomicLong(0);
 
+    @Override
     // method to retrieve games by id. Throws an exception if the game is not found
     // otherwise returns the game instance.
     public Game findGameById(Long id) {
