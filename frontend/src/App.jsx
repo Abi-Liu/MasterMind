@@ -244,7 +244,7 @@ export default function App() {
                   />
                 </div>
                 <p className="text-xs text-gray-500 mt-1">
-                  You decide the cap. Typically ≤ code length.
+                  You decide the cap. Must be less than code length.
                 </p>
               </div>
 
