@@ -56,6 +56,10 @@ public class HintServiceImplTest {
         int maxDigit = game.getRules().getMaxDigit();
         assertTrue(res.getDigit() <= maxDigit);
         assertTrue(res.getLocation() < codeLength);
+
+        // assert map updates accordingly
+        assertEquals(1, game.getHints().size());
+        assertEquals(1, game.getHints().get(0));
     }
 
     @Test
@@ -90,5 +94,8 @@ public class HintServiceImplTest {
         assertEquals(1, res.getDigit());
 
         assertThrows(OutOfHintsException.class, () -> hintService.useHint(game.getId()));
+
+        assertEquals(3, game.getHints().size());
+        assertEquals(3, game.getHintsUsed());
     }
 }
