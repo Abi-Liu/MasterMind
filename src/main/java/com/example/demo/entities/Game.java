@@ -22,6 +22,7 @@ public class Game {
     private List<GuessRecord> history;
     private int hintsUsed;
     private int maxHints;
+    // Index is key, Digit is value
     private Map<Integer, Integer> hints;
 
     public Game(long id, Rules rules, List<Integer> code) {
@@ -44,5 +45,7 @@ public class Game {
     }
 
 
-
+    public boolean canUseHint() {
+        return hintsUsed < maxHints;
+    }
 }

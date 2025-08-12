@@ -10,4 +10,6 @@ public interface GameService {
     GameResponseDTO createGame(RuleDTO ruleDTO);
 
     GameResponseDTO submitGuess(GuessRequestDTO guessRequestDTO);
+
+    boolean isGameInProgress(Game game);
 }

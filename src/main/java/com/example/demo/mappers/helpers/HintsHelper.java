@@ -19,7 +19,7 @@ public class HintsHelper {
 
         List<HintResponseDTO> res = new ArrayList<>(hints.size());
         for(Map.Entry<Integer, Integer> entry : hints.entrySet()) {
-            res.add(new HintResponseDTO(entry.getValue(), entry.getKey()));
+            res.add(new HintResponseDTO(entry.getKey(), entry.getValue()));
         }
 
         return res;

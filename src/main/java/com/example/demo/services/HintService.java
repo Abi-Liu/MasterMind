@@ -1,5 +1,7 @@
 package com.example.demo.services;
 
-public interface HintService {
+import com.example.demo.models.HintResponseDTO;
 
+public interface HintService {
+    HintResponseDTO useHint(Long id);
 }

@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HintResponseDTO {
-    private int digit;
     private int location;
+    private int digit;
 }

@@ -124,10 +124,8 @@ public class GameServiceImpl implements GameService {
     public GameResponseDTO submitGuess(GuessRequestDTO guessRequestDTO) {
         Game game = findGameById(guessRequestDTO.getGameId());
 
-        // check to ensure game is in progress
-        if(game.getStatus() != GameStatus.IN_PROGRESS) {
-            // game is completed, throw error
-            throw new GameCompletedException("Game is already completed. Start a new game to continue playing!");
+        if(!isGameInProgress(game)) {
+            throw new GameCompletedException("Game is already over.");
         }
 
         // throws error if guess is invalid, otherwise returns nothing
@@ -149,6 +147,16 @@ public class GameServiceImpl implements GameService {
 
 
         return gameMapper.gameToDTO(game);
+    }
+
+    @Override
+    // helper method to check if game is in progress or completed
+    public boolean isGameInProgress(Game game) {
+        if(game.getStatus() != GameStatus.IN_PROGRESS) {
+            return false;
+        }
+
+        return true;
     }
 
     // helper method to check correct numbers and location of the guess
