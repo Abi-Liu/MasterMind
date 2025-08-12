@@ -1,6 +1,8 @@
 package com.example.demo.services.impl;
 
 import com.example.demo.entities.Game;
+import com.example.demo.entities.GameStatus;
+import com.example.demo.exceptions.GameCompletedException;
 import com.example.demo.exceptions.OutOfHintsException;
 import com.example.demo.models.HintResponseDTO;
 import com.example.demo.repositories.GameRepository;
@@ -60,6 +62,7 @@ public class HintServiceImplTest {
         // assert map updates accordingly
         assertEquals(1, game.getHints().size());
         assertEquals(1, game.getHints().get(0));
+        verify(gameRepository, times(1)).save(any(Game.class));
     }
 
     @Test
@@ -71,6 +74,7 @@ public class HintServiceImplTest {
         when(gameService.isGameInProgress(game)).thenReturn(true);
 
         assertThrows(OutOfHintsException.class, () -> hintService.useHint(game.getId()));
+        verify(gameRepository, times(0)).save(any(Game.class));
     }
 
     @Test
@@ -97,5 +101,18 @@ public class HintServiceImplTest {
 
         assertEquals(3, game.getHints().size());
         assertEquals(3, game.getHintsUsed());
+        verify(gameRepository, times(3)).save(any(Game.class));
+    }
+
+    @Test
+    void testUseHintGameOver() {
+        Game game = GameTestBuilder.createGame(0l, List.of(7, 3, 5, 1));
+        game.setStatus(GameStatus.LOST);
+
+        when(gameService.findGameById(0l)).thenReturn(game);
+        when(gameService.isGameInProgress(game)).thenReturn(false);
+
+        assertThrows(GameCompletedException.class, () -> hintService.useHint(game.getId()));
+        verify(gameRepository, times(0)).save(any(Game.class));
     }
 }
