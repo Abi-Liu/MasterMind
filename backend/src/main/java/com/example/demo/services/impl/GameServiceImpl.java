@@ -48,11 +48,12 @@ public class GameServiceImpl implements GameService {
     // the client will store the id and use it as a token to start/resume their game
     // this method will also store the game instance into the GameRepository, which will be in memory for now.
     @Override
+    // @TODO validate that maxHints is less than the length of the secret code
     public GameResponseDTO createGame(RuleDTO rulesDTO) {
         Long id =  currentGameId.getAndIncrement();
         Rules rules = rulesMapper.dtoToEntity(rulesDTO);
         List<Integer> code = randomNumberService.generateCode(rules);
-        Game game = new Game(id, rules, code);
+        Game game = new Game(id, rules, code, rulesDTO.getMaxHints());
         gameRepository.save(game);
         return gameMapper.gameToDTO(game);
     }

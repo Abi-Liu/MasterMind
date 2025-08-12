@@ -17,4 +17,12 @@ public class RuleDTO {
     private int maxDigit;
     @Min(1) @Max(20)
     private int maxAttempts;
+
+    @Min(0)
+    private int maxHints;
+
+    // overloaded constructor to avoid breaking tests
+    public RuleDTO(int codeLength, int maxDigit, int maxAttempts) {
+        this(codeLength, maxDigit, maxAttempts, 1);
+    }
 }

@@ -4,7 +4,9 @@ import com.example.demo.entities.Game;
 import com.example.demo.mappers.GameMapper;
 import com.example.demo.models.GameResponseDTO;
 import com.example.demo.models.GuessRequestDTO;
+import com.example.demo.models.HintResponseDTO;
 import com.example.demo.models.RuleDTO;
+import com.example.demo.services.HintService;
 import com.example.demo.services.impl.GameServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class GameController {
     private final GameServiceImpl gameService;
     private final GameMapper gameMapper;
+    private final HintService hintService;
 
     // creates a new game and returns the gameId for the session
     // For now we will implement a very basic game ID that just increments for each new game created
@@ -39,4 +42,9 @@ public class GameController {
         return gameMapper.gameToDTO(game);
     }
 
+    @GetMapping("/hint/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public HintResponseDTO getHint(@PathVariable Long id) {
+        return hintService.useHint(id);
+    }
 }
