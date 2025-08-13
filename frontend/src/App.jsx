@@ -3,7 +3,7 @@ import api from "./util/axios";
 
 export default function App() {
   const [codeLength, setCodeLength] = useState(4);
-  const [maxDigit, setMaxDigit] = useState(6);
+  const [maxDigit, setMaxDigit] = useState(7);
   const [maxAttempts, setMaxAttempts] = useState(10);
   const [maxHints, setMaxHints] = useState(2);
 
