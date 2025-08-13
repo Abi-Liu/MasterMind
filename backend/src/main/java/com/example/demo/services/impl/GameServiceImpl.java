@@ -152,6 +152,9 @@ public class GameServiceImpl implements GameService {
             game.setStatus(GameStatus.LOST);
         }
 
+        // save game updated game
+        gameRepository.save(game);
+
 
         return gameMapper.gameToDTO(game);
     }
