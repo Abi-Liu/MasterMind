@@ -4,8 +4,17 @@ An implementation of a MasterMind game created for the LinkedIn Reach Apprentice
 
 This is a full-stack web application where players can start a game, submit guesses, receive feedback on the correct digits and positions, and use a limited number of hints to reveal parts of the secret code.
 
+## Table of Contents
+- [Development Approach](#development-approach)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [API Endpoints](#api-endpoints)
+- [Acknowledgements](#acknowledgements)
 
-## 🧠 Development Approach
+## Development Approach
 
 My goal for this project was to build a robust, testable, and extensible API that would first focus on meeting the project requirements, and then expand with additional features to make the game more engaging and flexible. From the start, I prioritized maintainability by structuring the backend using an MVC architecture, ensuring each layer had a clear responsibility: controllers handle client interaction, services contain the core game logic, and repositories manage data persistence. This separation of concerns makes the code easier to navigate, debug, and build upon.
 
