@@ -105,6 +105,8 @@ Before you begin, make sure you have the following technologies installed:
 3. You can now start the server via `mvn spring-boot:run`
 4. That's it! You should now be able to access the api at `http://localhost:8080`
 
+Additionally, you can run the unit tests by running `mvn test`
+
 #### **Frontend**
 1. Navigate to the frontend directory: `cd frontend`
 2. Install the dependencies by running `npm i`
