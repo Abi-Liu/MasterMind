@@ -88,8 +88,8 @@ public class GameServiceImplTest {
         GameResponseDTO first = gameService.createGame(ruleDTO);
         GameResponseDTO second = gameService.createGame(ruleDTO);
 
-        assertEquals(0l, first.getId());
-        assertEquals(1l, second.getId());
+        assertEquals(1l, first.getId());
+        assertEquals(2l, second.getId());
 
         assertEquals(GameStatus.IN_PROGRESS, first.getStatus());
         assertEquals(0, first.getAttempts());

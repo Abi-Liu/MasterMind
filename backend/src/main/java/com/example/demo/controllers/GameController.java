@@ -2,10 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.entities.Game;
 import com.example.demo.mappers.GameMapper;
-import com.example.demo.models.GameResponseDTO;
-import com.example.demo.models.GuessRequestDTO;
-import com.example.demo.models.HintResponseDTO;
-import com.example.demo.models.RuleDTO;
+import com.example.demo.models.*;
 import com.example.demo.services.HintService;
 import com.example.demo.services.impl.GameServiceImpl;
 import jakarta.validation.Valid;

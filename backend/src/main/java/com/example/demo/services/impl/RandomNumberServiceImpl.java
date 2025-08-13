@@ -48,9 +48,6 @@ public class RandomNumberServiceImpl implements RandomNumberService {
                 })
                 .block();
 
-        for(int w : code) {
-            System.out.println(w);
-        }
         return code;
     }
 
@@ -65,5 +62,4 @@ public class RandomNumberServiceImpl implements RandomNumberService {
 
         return res;
     }
-
 }

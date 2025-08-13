@@ -28,7 +28,7 @@ public class GameServiceImpl implements GameService {
     private final GameMapper gameMapper;
 
     // thread safe long value to hold and increment current gameId
-    private AtomicLong currentGameId = new AtomicLong(0);
+    private AtomicLong currentGameId = new AtomicLong(1);
 
     @Override
     // method to retrieve games by id. Throws an exception if the game is not found
