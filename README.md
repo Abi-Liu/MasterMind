@@ -87,7 +87,7 @@ Before you begin, make sure you have the following technologies installed:
      ```
 
 3. **Node.js**
-   - Download: [https://nodejs.org/en/download](https://nodejs.org/en/download]
+   - Download: [https://nodejs.org/en/download](https://nodejs.org/en/download)
    - Verify installation:
      ```bash
      node -v
