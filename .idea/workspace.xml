@@ -5,45 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="201b1825-a216-46b0-990d-e09610c969eb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitattributes" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/MasterMindApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/GameController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/advice/AllControllerAdvice.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/Game.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/GameStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/GuessRecord.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/GuessResult.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/Rules.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/exceptions/GameCompletedException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/exceptions/GameNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/exceptions/InvalidGuessException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/exceptions/OutOfHintsException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/mappers/GameMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/mappers/RulesMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/mappers/helpers/HintsHelper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/models/ErrorDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/models/GameResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/models/GuessRequestDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/models/HintResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/models/RuleDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/repositories/GameRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/repositories/impl/GameRepositoryImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/services/GameService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/services/HintService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/services/RandomNumberService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/services/impl/GameServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/services/impl/HintServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/services/impl/RandomNumberServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/demo/MasterMindApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/demo/services/impl/GameServiceImplTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/demo/services/impl/HintServiceImplTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/demo/utils/GameTestBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/vite.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/react.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vite.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,37 +49,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JUnit.GameServiceImplTest.executor": "Run",
-    "JUnit.GameServiceImplTest.testCreateGame.executor": "Run",
-    "JUnit.GameServiceImplTest.testFindGameByIdFail.executor": "Run",
-    "JUnit.GameServiceImplTest.testFindGameByIdSuccess.executor": "Run",
-    "JUnit.GameServiceImplTest.testSubmitGuess.executor": "Run",
-    "JUnit.GameServiceImplTest.testSubmitGuessAllCorrect.executor": "Run",
-    "JUnit.GameServiceImplTest.testSubmitGuessAllDuplicates.executor": "Run",
-    "JUnit.GameServiceImplTest.testSubmitGuessAllIncorrect.executor": "Run",
-    "JUnit.GameServiceImplTest.testSubmitGuessDigitTooLarge.executor": "Run",
-    "JUnit.GameServiceImplTest.testSubmitGuessEmptyList.executor": "Run",
-    "JUnit.GameServiceImplTest.testSubmitGuessInvalidGame.executor": "Run",
-    "JUnit.GameServiceImplTest.testSubmitGuessLostGame.executor": "Run",
-    "JUnit.GameServiceImplTest.testSubmitGuessNegativeDigit.executor": "Run",
-    "JUnit.GameServiceImplTest.testSubmitGuessNullDTO.executor": "Run",
-    "JUnit.GameServiceImplTest.testSubmitGuessNullDigit.executor": "Run",
-    "JUnit.GameServiceImplTest.testSubmitGuessNullList.executor": "Run",
-    "JUnit.GameServiceImplTest.testSubmitGuessUserLoses.executor": "Run",
-    "JUnit.GameServiceImplTest.testSubmitGuessUserWin.executor": "Run",
-    "JUnit.GameServiceImplTest.testSubmitGuessWonGame.executor": "Run",
-    "JUnit.HintServiceImplTest.testUseHintGameOver.executor": "Run",
-    "JUnit.HintServiceImplTest.testUseHintSuccess.executor": "Run",
-    "JUnit.HintServiceImplTest.testUseHintsMultiple.executor": "Run",
-    "JUnit.HintServiceImplTest.testUseHintsOutOfHints.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/abiliu/workspaces/MasterMind"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JUnit.GameServiceImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testCreateGame.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testFindGameByIdFail.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testFindGameByIdSuccess.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testSubmitGuess.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testSubmitGuessAllCorrect.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testSubmitGuessAllDuplicates.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testSubmitGuessAllIncorrect.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testSubmitGuessDigitTooLarge.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testSubmitGuessEmptyList.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testSubmitGuessInvalidGame.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testSubmitGuessLostGame.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testSubmitGuessNegativeDigit.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testSubmitGuessNullDTO.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testSubmitGuessNullDigit.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testSubmitGuessNullList.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testSubmitGuessUserLoses.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testSubmitGuessUserWin.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameServiceImplTest.testSubmitGuessWonGame.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.HintServiceImplTest.testUseHintGameOver.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.HintServiceImplTest.testUseHintSuccess.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.HintServiceImplTest.testUseHintsMultiple.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.HintServiceImplTest.testUseHintsOutOfHints.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/abiliu/workspaces/MasterMind&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/backend" />
