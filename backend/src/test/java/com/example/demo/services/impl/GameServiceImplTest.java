@@ -4,6 +4,7 @@ import com.example.demo.entities.*;
 import com.example.demo.exceptions.GameCompletedException;
 import com.example.demo.exceptions.GameNotFoundException;
 import com.example.demo.exceptions.InvalidGuessException;
+import com.example.demo.exceptions.MaxHintsTooLargeException;
 import com.example.demo.mappers.GameMapper;
 import com.example.demo.mappers.RulesMapper;
 import com.example.demo.models.GameResponseDTO;
@@ -11,6 +12,7 @@ import com.example.demo.models.GuessRequestDTO;
 import com.example.demo.models.RuleDTO;
 import com.example.demo.repositories.GameRepository;
 import com.example.demo.services.RandomNumberService;
+import com.example.demo.utils.GameTestBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -99,6 +101,20 @@ public class GameServiceImplTest {
         verify(rulesMapper, times(2)).dtoToEntity(ruleDTO);
         verify(randomNumberService, times(2)).generateCode(rules);
         verify(gameMapper, times(2)).gameToDTO(any(Game.class));
+    }
+
+    @Test
+    void testCreateGameHintsTooLarge() {
+        RuleDTO dto = new RuleDTO(4, 9, 10, 5);
+
+        assertThrows(MaxHintsTooLargeException.class, () -> gameService.createGame(dto));
+    }
+
+    @Test
+    void testCreateGameHintsSameAsCode() {
+        RuleDTO dto = new RuleDTO(4, 9, 10, 4);
+
+        assertThrows(MaxHintsTooLargeException.class, () -> gameService.createGame(dto));
     }
 
     @Test

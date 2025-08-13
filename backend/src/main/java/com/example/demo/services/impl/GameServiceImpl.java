@@ -4,6 +4,7 @@ import com.example.demo.entities.*;
 import com.example.demo.exceptions.GameCompletedException;
 import com.example.demo.exceptions.GameNotFoundException;
 import com.example.demo.exceptions.InvalidGuessException;
+import com.example.demo.exceptions.MaxHintsTooLargeException;
 import com.example.demo.mappers.GameMapper;
 import com.example.demo.mappers.RulesMapper;
 import com.example.demo.models.GameResponseDTO;
@@ -50,6 +51,11 @@ public class GameServiceImpl implements GameService {
     @Override
     // @TODO validate that maxHints is less than the length of the secret code
     public GameResponseDTO createGame(RuleDTO rulesDTO) {
+        // check to ensure hints cannot exceed the length of the code
+        if(rulesDTO.getCodeLength() <= rulesDTO.getMaxHints()) {
+            throw new MaxHintsTooLargeException("Hints cannot exceed the length of the code");
+        }
+
         Long id =  currentGameId.getAndIncrement();
         Rules rules = rulesMapper.dtoToEntity(rulesDTO);
         List<Integer> code = randomNumberService.generateCode(rules);
